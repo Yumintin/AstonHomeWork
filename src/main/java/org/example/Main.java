@@ -83,6 +83,7 @@ public class Main {
         linkedList.clear();
         System.out.println("После очистки: " + linkedListToString(linkedList)); // []
         System.out.println("Список пуст? " + linkedList.isEmpty()); // true
+        //Домашнее задание выполнено
     }
 
     /**
