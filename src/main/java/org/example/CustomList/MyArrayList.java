@@ -5,12 +5,14 @@ import java.util.Arrays;
 
 /**
  * MyArayList - реализация списка на основе массива
-  * @param <E> тип элементов в списке
+ *
+ * @param <E> тип элементов в списке
  */
 public class MyArrayList<E> implements MyList<E> {
-    private static final int DEFAULT_CAPACITY =10;//Начальная емкость массива
-    private Object[] elements;//Массив для хранения элементов
-    private int size;//Текущее количество элементов в списке
+    private static final int DEFAULT_CAPACITY = 10; //Начальная емкость массива
+    private static final double CAPACITY_MULTIPLIER = 1.5; //Множитель емкости массива для расширения
+    private Object[] elements; //Массив для хранения элементов
+    private int size; //Текущее количество элементов в списке
 
     /**
      * Создает пустой список с начальной емкостью по умолчанию
@@ -38,7 +40,7 @@ public class MyArrayList<E> implements MyList<E> {
      * Добавляет элемент по указанному индексу.
      * Сдвигает существующие элементы вправо
      *
-     * @param index индекс, по которому добавится элемент
+     * @param index   индекс, по которому добавится элемент
      * @param element элемент для добавления
      */
     @Override
@@ -76,7 +78,7 @@ public class MyArrayList<E> implements MyList<E> {
         checkIndex(index); //Проверка индекса на отрицательное значение или выход за границы массива
         E removedElement = (E) elements[index]; //Берем элемент по указанному индексу
         System.arraycopy(elements, index + 1, elements, index, size - index - 1); //Сшиваем массив без выбранного элемента
-        elements[size--] = null; //Очищаем последний элемент
+        elements[--size] = null; //Очищаем последний элемент
         return removedElement; //Возвращаем элемент
     }
 
@@ -116,22 +118,23 @@ public class MyArrayList<E> implements MyList<E> {
      */
     @Override
     public boolean isEmpty() {
-        return size==0;
+        return size == 0;
     }
 
     /**
      * Увеличивает емкость массива в 1.5 раза
      */
     private void increaseCapacity() {
-        int newCapacity= (int) (elements.length*1.5); //Создаем новую длину для массива (1.5 от изначального)
-        elements= Arrays.copyOf(elements, newCapacity); //Пересоздаем массив с новой длиной
+        int newCapacity = (int) (elements.length * CAPACITY_MULTIPLIER); //Создаем новую длину для массива (1.5 от изначального)
+        elements = Arrays.copyOf(elements, newCapacity); //Пересоздаем массив с новой длиной
     }
 
     /**
      * Проверяет, не является ли указанный индекс отрицательным или выходящим ща границы массива
+     *
      * @param index указанный индекс
      */
-    private void checkIndex(int index){
+    private void checkIndex(int index) {
         if (index < 0 || index > size) { //Если указанный индекс отрицательный или выходит за  границы массива
             throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size); //Выкидываем исключение
         }

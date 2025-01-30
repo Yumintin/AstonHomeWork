@@ -1,5 +1,7 @@
 package org.example.CustomList;
 
+import java.util.NoSuchElementException;
+
 /**
  * MyLinkedList - реализация списка на основе связного списка.
  * Каждый узел содержит ссылку на следующий узел.
@@ -24,10 +26,34 @@ public class MyLinkedList<E> implements MyList<E> {
     /**
      * Создает пустой список
      */
-    public MyLinkedList(){
-        this.head=null;
-        this.tail=null;
-        this.size=0;
+    public MyLinkedList() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
+
+    /**
+     * Возвращает первый элемент списка
+     *
+     * @return первый элемент списка
+     */
+    public E getFirst() {
+        if (head == null) {
+            throw new NoSuchElementException("Список пуст");
+        }
+        return head.element;
+    }
+
+    /**
+     * Возвращает последний элемент списка
+     *
+     * @return последний элемент списка
+     */
+    public E getLast() {
+        if (tail == null) {
+            throw new NoSuchElementException("Список пуст");
+        }
+        return tail.element;
     }
 
     /**
@@ -50,7 +76,7 @@ public class MyLinkedList<E> implements MyList<E> {
     /**
      * Добавляет узел по указанному индексу
      *
-     * @param index индекс, по которому добавится элемент
+     * @param index   индекс, по которому добавится элемент
      * @param element элемент для добавления
      */
     @Override
@@ -85,6 +111,7 @@ public class MyLinkedList<E> implements MyList<E> {
 
     /**
      * Удаляет узел по указанному индексу
+     *
      * @param index индекс элемента
      * @return удаленный элемент
      */
@@ -115,6 +142,12 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void clear() {
+        Node<E> current = head;
+        while (current != null) {
+            Node<E> next = current.next; // Сохраняем ссылку на следующий узел
+            current.next = null;         // Обнуляем ссылку текущего узла
+            current = next;              // Переходим к следующему узлу
+        }
         head = tail = null;
         size = 0;
     }
@@ -125,21 +158,21 @@ public class MyLinkedList<E> implements MyList<E> {
     @Override
     public void sort() {
         //Реализация сортировки (пузырьком)
-        if(size<=1) return; //Если список из 1 узла или пуст, останавливаемся
+        if (size <= 1) return; //Если список из 1 узла или пуст, останавливаемся
         boolean swapped; //Переменная для отслеживания перестановки узлов
         do { //Пока есть перестановки, делаем алгоритм
-            swapped=false; //Сброс флага
-            Node<E> current=head; //Начинаем сортировку с первого узла
-            while(current.next!=null){ //Проходимся по всему массиву
-                if(((Comparable<E>)current.element).compareTo(current.next.element)>0){ //Сравнение элементов методом compareTo(возвращает >0 если current.element больше current.next.element)
-                    E temp =current.element; //Временная переменная равна текущему элементу
-                    current.element=current.next.element; //Текущий элемент равен следующему
-                    current.next.element=temp; //Следующий элемент равен временной переменной
-                    swapped=true; //Ставим флаг что была перестановка
+            swapped = false; //Сброс флага
+            Node<E> current = head; //Начинаем сортировку с первого узла
+            while (current.next != null) { //Проходимся по всему массиву
+                if (((Comparable<E>) current.element).compareTo(current.next.element) > 0) { //Сравнение элементов методом compareTo(возвращает >0 если current.element больше current.next.element)
+                    E temp = current.element; //Временная переменная равна текущему элементу
+                    current.element = current.next.element; //Текущий элемент равен следующему
+                    current.next.element = temp; //Следующий элемент равен временной переменной
+                    swapped = true; //Ставим флаг что была перестановка
                 }
-                current=current.next; //Переходим к следующему узлу
+                current = current.next; //Переходим к следующему узлу
             }
-        }while ((swapped));
+        } while ((swapped));
     }
 
     /**
@@ -159,7 +192,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public boolean isEmpty() {
-        return size==0;
+        return size == 0;
     }
 
     /**
@@ -179,9 +212,10 @@ public class MyLinkedList<E> implements MyList<E> {
 
     /**
      * Проверяет, не является ли указанный индекс отрицательным или выходящим ща границы массива
+     *
      * @param index указанный индекс
      */
-    private void checkIndex(int index){
+    private void checkIndex(int index) {
         if (index < 0 || index > size) { //Если указанный индекс отрицательный или выходит за  границы массива
             throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size); //Выкидываем исключение
         }

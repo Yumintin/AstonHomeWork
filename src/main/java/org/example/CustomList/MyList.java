@@ -3,21 +3,24 @@ package org.example.CustomList;
 /**
  * Интерфейс для основных операций:
  * добавление, удаление, получение элементов, очистка, сортировка.
+ *
  * @param <E> тип элементов в списке
  */
 public interface MyList<E> {
     /**
      * Добавляет элемент в конец списка.
+     *
      * @param element элемент для добавления
      */
-    void add (E element);
+    void add(E element);
 
     /**
      * Добавляет элемент по индексу.
-     * @param index индекс, по которому добавится элемент
+     *
+     * @param index   индекс, по которому добавится элемент
      * @param element элемент для добавления
      */
-    void add (int index,E element);
+    void add(int index, E element);
 
     /**
      * Возвращает элемент по указанному индексу.
@@ -25,10 +28,11 @@ public interface MyList<E> {
      * @param index индекс элемента
      * @return элемент по указанному индексу
      */
-    E get (int index);
+    E get(int index);
 
     /**
      * Удаляет элемент по указанному индексу
+     *
      * @param index индекс элемента
      * @return элемент по указанному индексу
      */
@@ -46,12 +50,14 @@ public interface MyList<E> {
 
     /**
      * Возвращает количество элементов в списке
+     *
      * @return количество элементов
      */
     int size();
 
     /**
      * Проверка списка на наличие элементов
+     *
      * @return true, если пуст, иначе false
      */
     boolean isEmpty();
